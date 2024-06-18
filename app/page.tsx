@@ -24,3 +24,6 @@ export default function Home() {
     </main>
   );
 }
+
+// https://epicreact.dev/how-to-type-a-react-form-on-submit-handler/
+// https://dev.to/andydziabo/how-to-pass-data-between-sibling-components-in-react-2cjg
