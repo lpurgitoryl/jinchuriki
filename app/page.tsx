@@ -1,11 +1,12 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 import Button from "./components/button";
 import SearchBar from "./components/searchBar";
 import Card from "./components/card";
 
-const baseURL = "https://narutodb.xyz/api/";
-
 export default function Home() {
+  const [query, setQuery] = useState("");
+
   return (
     <main className="flex h-full w-full justify-center">
       <div id="buttonContainer" className="flex flex-col w-2/4 justify-center">
@@ -17,8 +18,8 @@ export default function Home() {
         id="contentContainer"
         className="flex flex-col w-full justify-center items-center"
       >
-        <SearchBar />
-        <Card />
+        <SearchBar onQuery={setQuery} />
+        <Card query={query} />
       </div>
     </main>
   );
