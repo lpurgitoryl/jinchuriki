@@ -1,5 +1,5 @@
 import useSWR from "swr";
-
+import Image from "next/image";
 const baseURL = "https://narutodb.xyz/api/";
 async function fetcher<JSON = any>(
   input: RequestInfo,
@@ -36,7 +36,16 @@ export default function Card({ query }: { query: string }) {
       >
         <div id="cardTitle">{character.name}</div>
         <div id="cardContent">content goes here</div>
-        <div id="cardDescription">{JSON.stringify(character)}</div>
+        {/* <div id="cardDescription">{JSON.stringify(character)}</div> */}
+        <Image
+          src={character.images[0]}
+          width={500}
+          height={500}
+          alt="character image"
+        />
+        {/* <div>{character.debut}</div> */}
+        {/* <div>{character.jutsu}</div> */}
+        <div>{character.natureType}</div>
       </div>
     </div>
   );
