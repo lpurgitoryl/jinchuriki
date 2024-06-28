@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import Image from "next/image";
 const baseURL = "https://narutodb.xyz/api/";
+import { useState } from "react";
 
 async function fetcher<JSON = any>(
   input: RequestInfo,
@@ -47,6 +48,17 @@ export default function Card({ query }: { query: string }) {
   const { characterByID, isLoadingCharacterByID, isErrorCharacterByID } =
     useCharacterID(1344);
 
+  const [imageIndex, setIndex] = useState(0);
+
+  function handleImageChange(imageArr, isLeft) {
+    if (isLeft && imageIndex > 0) {
+      setIndex(imageIndex - 1);
+      return;
+    } else if (!isLeft && imageIndex < imageArr.length - 1) {
+      setIndex(imageIndex + 1);
+      return;
+    }
+  }
   // both have errors case
 
   // only one has errors
@@ -63,25 +75,35 @@ export default function Card({ query }: { query: string }) {
         >
           <div id="cardTitle">{characterByID.name}</div>
           <Image
-            src={characterByID.images[0]}
+            src={characterByID.images[imageIndex]}
             width={200}
             height={200}
             alt="character image"
           />
-          <div>
-            <button
-              className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
-              id="nextImageLeft"
-            >
-              &lt;
-            </button>
-            <button
-              className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
-              id="nextImageRight"
-            >
-              &gt;
-            </button>
-          </div>
+          {characterByID.images.length > 1 ? (
+            <div>
+              <button
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
+                id="nextImageLeft"
+                onClick={() => {
+                  handleImageChange(characterByID.images, true);
+                }}
+              >
+                &lt;
+              </button>
+              <button
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
+                id="nextImageRight"
+                onClick={() => {
+                  handleImageChange(characterByID.images, false);
+                }}
+              >
+                &gt;
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="">{characterByID.natureType}</div>
         </div>
       </div>
