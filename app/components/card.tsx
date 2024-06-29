@@ -39,7 +39,7 @@ function useCharacterID(id: number) {
   };
 }
 
-export default function Card({ query }: { query: string }) {
+export default function Card({ query, cID }: { query: string; cID: number }) {
   const {
     characterByQuery,
     isLoadingCharacterByQuery,
@@ -47,9 +47,12 @@ export default function Card({ query }: { query: string }) {
   } = useCharacter({ query });
 
   const { characterByID, isLoadingCharacterByID, isErrorCharacterByID } =
-    useCharacterID(1344);
+    useCharacterID(cID);
 
   // if next character
+  // either is loading
+  if (isLoadingCharacterByQuery || isLoadingCharacterByID)
+    return <div>loading...</div>;
 
   // only one has errors
   if (
@@ -59,10 +62,6 @@ export default function Card({ query }: { query: string }) {
   ) {
     return <CardComponent data={characterByID} />;
   }
-
-  // either is loading
-  if (isLoadingCharacterByQuery || isLoadingCharacterByID)
-    return <div>loading...</div>;
 
   // character
   if (!isErrorCharacterByQuery)

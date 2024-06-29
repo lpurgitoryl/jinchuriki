@@ -1,26 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 import Button from "./components/button";
 import SearchBar from "./components/searchBar";
 import Card from "./components/card";
 
 export default function Home() {
   const [query, setQuery] = useState("");
+  const [currId, setID] = useState(1344);
 
   return (
     <main className="flex h-full w-full justify-center">
-      {/* <div id="buttonContainer" className="flex flex-col w-2/4 justify-center">
-        <Button buttonName="Characters" />
-        <Button buttonName="Villages" />
-        <Button buttonName="Jutsu" />
-      </div> */}
+      <Button
+        buttonName="Previous Character"
+        onID={setID}
+        isLeft={true}
+        ID={currId}
+      />
       <div
         id="contentContainer"
         className="flex flex-col w-full justify-center items-center"
       >
         <SearchBar onQuery={setQuery} />
-        <Card query={query} />
+        <Card query={query} cID={currId} />
       </div>
+      <Button
+        buttonName="Next Character"
+        onID={setID}
+        isLeft={false}
+        ID={currId}
+      />
+      <div>{currId}</div>
     </main>
   );
 }
