@@ -50,7 +50,7 @@ export default function Card({ query }: { query: string }) {
 
   const [imageIndex, setIndex] = useState(0);
 
-  function handleImageChange(imageArr, isLeft) {
+  function handleImageChange(imageArr: string[], isLeft: boolean) {
     if (isLeft && imageIndex > 0) {
       setIndex(imageIndex - 1);
       return;
@@ -68,12 +68,14 @@ export default function Card({ query }: { query: string }) {
     !isLoadingCharacterByID
   ) {
     return (
-      <div id="cardSection" className="w-1/2 h-3/4 flex px-4 py-4">
+      <div id="cardSection" className="w-1/2 flex px-4 py-4">
         <div
           id="card"
           className="mx-4 my-4 px-4 py-4 w-full border-2 border-black rounded-lg flex flex-col items-center"
         >
-          <div id="cardTitle">{characterByID.name}</div>
+          <div className="font-bold " id="cardTitle">
+            {characterByID.name}
+          </div>
           <Image
             src={characterByID.images[imageIndex]}
             width={200}
@@ -83,7 +85,7 @@ export default function Card({ query }: { query: string }) {
           {characterByID.images.length > 1 ? (
             <div>
               <button
-                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2 active:bg-gray-200"
                 id="nextImageLeft"
                 onClick={() => {
                   handleImageChange(characterByID.images, true);
@@ -92,7 +94,7 @@ export default function Card({ query }: { query: string }) {
                 &lt;
               </button>
               <button
-                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2"
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2 active:bg-gray-200"
                 id="nextImageRight"
                 onClick={() => {
                   handleImageChange(characterByID.images, false);
@@ -104,7 +106,47 @@ export default function Card({ query }: { query: string }) {
           ) : (
             ""
           )}
-          <div className="">{characterByID.natureType}</div>
+          <div className="font-semibold text-wrap max-w-full break-words">
+            {characterByID.personal.birthdate != null ? (
+              <div> Birthdate: {characterByID.personal.birthdate}</div>
+            ) : (
+              ""
+            )}
+            {characterByID.personal.sex != null ? (
+              <div> Sex: {characterByID.personal.sex}</div>
+            ) : (
+              ""
+            )}
+            {characterByID.personal.bloodType != null ? (
+              <div>Blood Type: {characterByID.personal.bloodType}</div>
+            ) : (
+              ""
+            )}
+            {characterByID.personal.affiliation != null ? (
+              <div>
+                Affiliation(s):
+                {characterByID.personal.affiliation.length > 1
+                  ? characterByID.personal.affiliation.map((el) => {
+                      return el + ", ";
+                    })
+                  : characterByID.personal.affiliation[0]}
+              </div>
+            ) : (
+              ""
+            )}
+            {characterByID.personal.affiliation != null ? (
+              <div>
+                Occupation(s):
+                {characterByID.personal.occupation.length > 1
+                  ? characterByID.personal.occupation.map((el) => {
+                      return el + ", ";
+                    })
+                  : characterByID.personal.occupation[0]}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
     );
@@ -117,32 +159,86 @@ export default function Card({ query }: { query: string }) {
   // character
   if (!isErrorCharacterByQuery)
     return (
-      // <div id="cardSection" className="w-1/2 flex px-4 py-4">
-      //   <div
-      //     id="card"
-      //     className="mx-4 my-4 px-4 py-4 block w-full border border-black"
-      //   >
-      //     <div id="cardTitle">{characterByQuery.name}</div>
-      //     <div id="cardContent">content goes here</div>
-      //     {/* <div id="cardDescription">{JSON.stringify(character)}</div> */}
-      //     <Image
-      //       src={characterByQuery.images[0]}
-      //       width={500}
-      //       height={500}
-      //       alt="character image"
-      //     />
-      //     <div className="flex place-content-around">
-      //       <button
-      //         className="border-2 border-black rounded-md px-2 py-2"
-      //         id="nextImageLeft"
-      //       >
-      //         &lt;
-      //       </button>
-      //       <button id="nextImageRight">&gt;</button>
-      //     </div>
-      //     <div className="overflow">{characterByQuery.natureType}</div>
-      //   </div>
-      // </div>
-      <div>test</div>
+      <div id="cardSection" className="w-1/2 flex px-4 py-4">
+        <div
+          id="card"
+          className="mx-4 my-4 px-4 py-4 w-full border-2 border-black rounded-lg flex flex-col items-center"
+        >
+          <div className="font-bold " id="cardTitle">
+            {characterByQuery.name}
+          </div>
+          <Image
+            src={characterByQuery.images[imageIndex]}
+            width={200}
+            height={200}
+            alt="character image"
+          />
+          {characterByQuery.images.length > 1 ? (
+            <div>
+              <button
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2 active:bg-gray-200"
+                id="nextImageLeft"
+                onClick={() => {
+                  handleImageChange(characterByQuery.images, true);
+                }}
+              >
+                &lt;
+              </button>
+              <button
+                className="border-2 border-grey rounded-md px-2 py-2 my-2 mx-2 active:bg-gray-200"
+                id="nextImageRight"
+                onClick={() => {
+                  handleImageChange(characterByQuery.images, false);
+                }}
+              >
+                &gt;
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className="font-semibold text-wrap max-w-full break-words">
+            {characterByQuery.personal.birthdate != null ? (
+              <div> Birthdate: {characterByQuery.personal.birthdate}</div>
+            ) : (
+              ""
+            )}
+            {characterByQuery.personal.sex != null ? (
+              <div> Sex: {characterByQuery.personal.sex}</div>
+            ) : (
+              ""
+            )}
+            {characterByQuery.personal.bloodType != null ? (
+              <div>Blood Type: {characterByQuery.personal.bloodType}</div>
+            ) : (
+              ""
+            )}
+            {characterByQuery.personal.affiliation != null ? (
+              <div>
+                Affiliation(s):
+                {characterByQuery.personal.affiliation.length > 1
+                  ? characterByQuery.personal.affiliation.map((el) => {
+                      return el + ", ";
+                    })
+                  : characterByQuery.personal.affiliation[0]}
+              </div>
+            ) : (
+              ""
+            )}
+            {characterByQuery.personal.affiliation != null ? (
+              <div>
+                Occupation(s):
+                {characterByQuery.personal.occupation.length > 1
+                  ? characterByQuery.personal.occupation.map((el) => {
+                      return el + ", ";
+                    })
+                  : characterByQuery.personal.occupation[0]}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
     );
 }
