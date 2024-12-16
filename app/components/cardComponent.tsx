@@ -74,7 +74,7 @@ export default function CardComponent({ data }: any) {
               Affiliation(s):
               {data.personal.affiliation.length > 1 &&
               Array.isArray(data.personal.affiliation)
-                ? data.personal.affiliation.map((el) => {
+                ? data.personal.affiliation.map((el: string) => {
                     return el + ", ";
                   })
                 : data.personal.affiliation}
@@ -87,7 +87,7 @@ export default function CardComponent({ data }: any) {
               Occupation(s):
               {data.personal.occupation.length > 1 &&
               Array.isArray(data.personal.occupation)
-                ? data.personal.occupation.map((el) => {
+                ? data.personal.occupation.map((el: string) => {
                     return el + ", ";
                   })
                 : data.personal.occupation}
@@ -98,6 +98,5 @@ export default function CardComponent({ data }: any) {
         </div>
       </div>
     </div>
-    // <div>{data}</div>
   );
 }
